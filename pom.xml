@@ -19,6 +19,7 @@
 
 	<properties>
 		<java.version>17</java.version>
+		<skipUTs>false</skipUTs>
 	</properties>
 
 	<dependencies>
@@ -58,6 +59,7 @@
 
 	<build>
 		<plugins>
+			<!-- spring-boot-maven-plugin: se mantiene como estaba -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -69,6 +71,29 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+
+			<!-- Surefire: pruebas unitarias (clases que terminan en Test) en la fase test -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skipTests>${skipUTs}</skipTests>
+				</configuration>
+			</plugin>
+
+			<!-- Failsafe: pruebas de integración (clases que terminan en IT) en la fase verify -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
